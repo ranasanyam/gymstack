@@ -1,8 +1,149 @@
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --background: #f6f7f9;
+  --foreground: #131720;
+
+
+  --sidebar-background: #0f131a;
+  --sidebar-foreground: #d5d7dd;
+  --sidebar-primary: #f97015;
+  --sidebar-primary-foreground: #ffffff;
+  --sidebar-accent: #1f242e;
+  --sidebar-accent-foreground: #e3e5e8;
+  --sidebar-border: #252b37;
+  --sidebar-ring:	#f97015;
+
+  --card: #ffffff;
+  --card-foreground: #131720;
+
+  --popover: #ffffff;
+  --popover-foreground: #131720;
+
+  --primary: #f97015;
+  --primary-foreground: #ffffff;
+
+  --secondary: #e8eaee;
+  --secondary-foreground: #131720;
+
+  --muted: 	#f0f2f4;
+  --muted-foreground:	#676f7e;
+
+  --accent: #fff0e5;
+  --accent-foreground: #c75305;
+
+  --destructive: #ef4334;
+  --destructive-foreground: #ffffff;
+
+  --border: #dcdfe5;
+  --input: #dcdfe5;
+  --ring: #f97015;
+
+  --radius: 0.75rem;
+
+
+    /* Custom tokens */
+  --success: #16a249;
+  --success-foreground: #ffffff;
+  --warning: #f59f0a;
+  --warning-foreground: #ffffff;
+  --info: #0da2e7;
+  --info-foreground: #ffffff;
+  --gradient-primary: linear-gradient(135deg, #f97015 0%, 	#f9941f 100%);
+  --gradient-dark: linear-gradient(180deg, #0f131a 0%, #090b11 100%);
+  --gradient-card: linear-gradient(145deg, #ffffff 0%, #f9fafb 100%);
+  --gradient-hero: linear-gradient(135deg, 	#0f131a 0%, #151c28 50%, #362317 100%);
+  --sidebar-width: 16rem;
+  --sidebar-width-icon: 3.5rem;
+}
+
+.text-primary {
+  color: hsl(var(--primary));
+}
+
+/* Ensure anchors use primary color and provide a hover state fallback */
+a.text-primary,
+.text-primary {
+  color: hsl(var(--primary));
+}
+
+a.text-primary:hover,
+.text-primary:hover,
+.hover\:text-primary\/80:hover {
+  color: hsl(var(--primary) / 0.8);
+}
+
+/* Background helpers for hero/primary */
+.bg-gradient-hero {
+  background-image: var(--gradient-hero);
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
+.bg-gradient-primary {
+  background-image: var(--gradient-primary);
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
+}
+
+/* Sidebar helper utilities (semantic tokens + helpers) */
+.bg-sidebar {
+  background: var(--sidebar-background);
+}
+.text-sidebar-foreground {
+  color: var(--sidebar-foreground);
+}
+.border-sidebar-border {
+  border-color: var(--sidebar-border);
+}
+.bg-sidebar-accent {
+  background: var(--sidebar-accent);
+}
+.text-sidebar-accent-foreground {
+  color: var(--sidebar-accent-foreground);
+}
+/* Active / primary sidebar item */
+.bg-sidebar-primary {
+  background-image: var(--gradient-primary);
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-color: hsl(var(--primary));
+}
+.text-sidebar-primary-foreground {
+  color: var(--sidebar-primary-foreground);
+}
+.ring-sidebar-ring:focus,
+.ring-sidebar-ring:focus-visible {
+  box-shadow: 0 0 0 3px var(--sidebar-ring);
+}
+
+.bg-primary {
+  background-color: hsl(var(--primary));
+}
+
+/* Layout: offset main content based on sidebar state (desktop only)
+   On medium+ screens, the sidebar is fixed and the main content needs to shift
+   to avoid being hidden underneath. Uses CSS selectors to detect the sidebar's
+   data-state attribute (expanded/collapsed) and applies appropriate margin-left. */
+@media (min-width: 768px) {
+  /* When sidebar is expanded, shift main by the full width */
+  .group\/sidebar-wrapper .group[data-state="expanded"] ~ main {
+    margin-left: var(--sidebar-width);
+    transition: margin-left 200ms ease-in-out;
+  }
+
+  /* When sidebar is collapsed, shift main by the icon width */
+  .group\/sidebar-wrapper .group[data-state="collapsed"] ~ main {
+    margin-left: var(--sidebar-width-icon);
+    transition: margin-left 200ms ease-in-out;
+  }
+
+  /* When sidebar is offcanvas (mobile sheet), no margin */
+  .group\/sidebar-wrapper .group[data-state="offcanvas"] ~ main {
+    margin-left: 0;
+    transition: margin-left 200ms ease-in-out;
+  }
 }
 
 @theme inline {
@@ -11,11 +152,55 @@
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
 }
-
+@layer utilities {
+  .text-gradient {
+    @apply bg-clip-text text-transparent;
+    background-image: var(--gradient-primary);
+  }
+  .glass {
+    @apply backdrop-blur-xl bg-white/5 border border-white/10;
+  }
+}
 @media (prefers-color-scheme: dark) {
   :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+    --background: #0b0e13;
+    --foreground: #f1f2f4;
+
+    --card: #11151d;
+    --card-foreground: #f1f2f4;
+
+    --popover: #0b0e13;
+    --popover-foreground: #f1f2f4;
+    --primary: #f97015;
+    --primary-foreground: #ffffff;
+
+    --secondary: #1f242e;
+    --secondary-foreground: #e3e5e8;
+
+    --muted: #181b24;
+    --muted-foreground: #818898;
+
+    --accent: #1f242e;
+    --accent-foreground: #fa8638;
+
+    --destructive: #cf3030;
+    --destructive-foreground: #ffffff;
+
+    --border: #1f242e;
+    --input: #1f242e;
+    --ring: #f97015;
+
+    /* Sidebar tokens for dark mode */
+    --sidebar-background: #0f131a;
+    --sidebar-foreground: #d5d7dd;
+    --sidebar-primary: #f97015;
+    --sidebar-primary-foreground: #ffffff;
+    --sidebar-accent: #1f242e;
+    --sidebar-accent-foreground: #e3e5e8;
+    --sidebar-border: #252b37;
+    --sidebar-ring: #f97015;
+
+    --gradient-card: linear-gradient(145deg, #131720 0%, #0f131a 100%);
   }
 }
 
