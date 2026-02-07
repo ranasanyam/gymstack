@@ -57,20 +57,24 @@
   --sidebar-width-icon: 3.5rem;
 }
 
+
 .text-primary {
-  color: hsl(var(--primary));
+  color: var(--primary);
 }
 
 /* Ensure anchors use primary color and provide a hover state fallback */
 a.text-primary,
 .text-primary {
-  color: hsl(var(--primary));
+  color: var(--primary);
+}
+.border-border {
+  color: var(--border);
 }
 
 a.text-primary:hover,
 .text-primary:hover,
 .hover\:text-primary\/80:hover {
-  color: hsl(var(--primary) / 0.8);
+  color: var(--primary);
 }
 
 /* Background helpers for hero/primary */
@@ -108,7 +112,7 @@ a.text-primary:hover,
   background-image: var(--gradient-primary);
   background-repeat: no-repeat;
   background-size: cover;
-  background-color: hsl(var(--primary));
+  background-color: var(--primary);
 }
 .text-sidebar-primary-foreground {
   color: var(--sidebar-primary-foreground);
@@ -119,7 +123,286 @@ a.text-primary:hover,
 }
 
 .bg-primary {
-  background-color: hsl(var(--primary));
+  background-color: var(--primary);
+}
+
+.bg-card {
+  background-color: var(--card)
+}
+.text-muted {
+  color: var(--muted);
+}
+.bg-muted {
+  background-color: var(--muted);
+}
+.bg-muted-foreground {
+  background-color: var(--muted-foreground);
+}
+.text-muted-foreground {
+  color: var(--muted-foreground);
+}
+
+/* Background classes */
+.bg-background {
+  background-color: var(--background);
+}
+.bg-foreground {
+  background-color: var(--foreground);
+}
+.bg-sidebar-background {
+  background-color: var(--sidebar-background);
+}
+.bg-sidebar-foreground {
+  background-color: var(--sidebar-foreground);
+}
+.bg-sidebar-primary-foreground {
+  background-color: var(--sidebar-primary-foreground);
+}
+.bg-card-foreground {
+  background-color: var(--card-foreground);
+}
+.bg-popover {
+  background-color: var(--popover);
+}
+.bg-popover-foreground {
+  background-color: var(--popover-foreground);
+}
+.bg-primary-foreground {
+  background-color: var(--primary-foreground);
+}
+.bg-secondary {
+  background-color: var(--secondary);
+}
+.bg-secondary-foreground {
+  background-color: var(--secondary-foreground);
+}
+.bg-accent {
+  background-color: var(--accent);
+}
+.bg-accent-foreground {
+  background-color: var(--accent-foreground);
+}
+.bg-destructive {
+  background-color: var(--destructive);
+}
+.bg-destructive-foreground {
+  background-color: var(--destructive-foreground);
+}
+.bg-input {
+  background-color: var(--input);
+}
+.bg-success {
+  background-color: var(--success);
+}
+.bg-success-foreground {
+  background-color: var(--success-foreground);
+}
+.bg-warning {
+  background-color: var(--warning);
+}
+.bg-warning-foreground {
+  background-color: var(--warning-foreground);
+}
+.bg-info {
+  background-color: var(--info);
+}
+.bg-info-foreground {
+  background-color: var(--info-foreground);
+}
+
+/* Text/Color classes */
+.text-background {
+  color: var(--background);
+}
+.text-foreground {
+  color: var(--foreground);
+}
+.text-sidebar-background {
+  color: var(--sidebar-background);
+}
+.text-sidebar-primary {
+  color: var(--sidebar-primary);
+}
+.text-card {
+  color: var(--card);
+}
+.text-card-foreground {
+  color: var(--card-foreground);
+}
+.text-popover {
+  color: var(--popover);
+}
+.text-popover-foreground {
+  color: var(--popover-foreground);
+}
+.text-primary-foreground {
+  color: var(--primary-foreground);
+}
+.text-secondary {
+  color: var(--secondary);
+}
+.text-secondary-foreground {
+  color: var(--secondary-foreground);
+}
+.text-accent {
+  color: var(--accent);
+}
+.text-accent-foreground {
+  color: var(--accent-foreground);
+}
+.text-destructive {
+  color: var(--destructive);
+}
+.text-destructive-foreground {
+  color: var(--destructive-foreground);
+}
+.text-border {
+  color: var(--border);
+}
+.text-input {
+  color: var(--input);
+}
+.text-ring {
+  color: var(--ring);
+}
+.text-success {
+  color: var(--success);
+}
+.text-success-foreground {
+  color: var(--success-foreground);
+}
+.text-warning {
+  color: var(--warning);
+}
+.text-warning-foreground {
+  color: var(--warning-foreground);
+}
+.text-info {
+  color: var(--info);
+}
+.text-info-foreground {
+  color: var(--info-foreground);
+}
+
+/* Border classes */
+.border-background {
+  border-color: var(--background);
+}
+.border-foreground {
+  border-color: var(--foreground);
+}
+.border-sidebar-background {
+  border-color: var(--sidebar-background);
+}
+.border-sidebar-foreground {
+  border-color: var(--sidebar-foreground);
+}
+.border-sidebar-primary {
+  border-color: var(--sidebar-primary);
+}
+.border-sidebar-primary-foreground {
+  border-color: var(--sidebar-primary-foreground);
+}
+.border-sidebar-accent {
+  border-color: var(--sidebar-accent);
+}
+.border-sidebar-accent-foreground {
+  border-color: var(--sidebar-accent-foreground);
+}
+.border-card {
+  border-color: var(--card);
+}
+.border-card-foreground {
+  border-color: var(--card-foreground);
+}
+.border-popover {
+  border-color: var(--popover);
+}
+.border-popover-foreground {
+  border-color: var(--popover-foreground);
+}
+.border-primary {
+  border-color: var(--primary);
+}
+.border-primary-foreground {
+  border-color: var(--primary-foreground);
+}
+.border-secondary {
+  border-color: var(--secondary);
+}
+.border-secondary-foreground {
+  border-color: var(--secondary-foreground);
+}
+.border-muted {
+  border-color: var(--muted);
+}
+.border-muted-foreground {
+  border-color: var(--muted-foreground);
+}
+.border-accent {
+  border-color: var(--accent);
+}
+.border-accent-foreground {
+  border-color: var(--accent-foreground);
+}
+.border-destructive {
+  border-color: var(--destructive);
+}
+.border-destructive-foreground {
+  border-color: var(--destructive-foreground);
+}
+.border-input {
+  border-color: var(--input);
+}
+.border-ring {
+  border-color: var(--ring);
+}
+.border-success {
+  border-color: var(--success);
+}
+.border-success-foreground {
+  border-color: var(--success-foreground);
+}
+.border-warning {
+  border-color: var(--warning);
+}
+.border-warning-foreground {
+  border-color: var(--warning-foreground);
+}
+.border-info {
+  border-color: var(--info);
+}
+.border-info-foreground {
+  border-color: var(--info-foreground);
+}
+
+/* Ring/Focus classes */
+.ring-primary {
+  box-shadow: 0 0 0 3px var(--primary);
+}
+.ring-secondary {
+  box-shadow: 0 0 0 3px var(--secondary);
+}
+.ring-destructive {
+  box-shadow: 0 0 0 3px var(--destructive);
+}
+.ring-accent {
+  box-shadow: 0 0 0 3px var(--accent);
+}
+.ring-success {
+  box-shadow: 0 0 0 3px var(--success);
+}
+.ring-warning {
+  box-shadow: 0 0 0 3px var(--warning);
+}
+.ring-info {
+  box-shadow: 0 0 0 3px var(--info);
+}
+.ring-border {
+  box-shadow: 0 0 0 3px var(--border);
+}
+.ring-input {
+  box-shadow: 0 0 0 3px var(--input);
 }
 
 /* Layout: offset main content based on sidebar state (desktop only)
