@@ -34,15 +34,48 @@ export async function signUp(
     date_of_birth?: string;
   }
 ) {
+
+
+  // check if mobile already exists
+
+  const { data: existingProfile } = await supabase
+    .from('profiles')
+    .select('id')
+    .eq('mobile_number', metadata.mobile_number)
+    .maybeSingle();
+
+  if(existingProfile) {
+    return {
+      data: null,
+      error: { message: 'Mobile number already registered.'}
+    }
+  }
+
+  // create auth user
   const { data, error } = await supabase.auth.signUp({
     email,
     password,
-    options: {
-      emailRedirectTo: window.location.origin,
-      data: metadata,
-    },
   });
-  return { data, error };
+
+  if(error || !data.user) return { data, error };
+
+  // create profile now
+  const { error: profileError } = await supabase.from('profiles').insert({
+    user_id: data.user.id,
+    full_name: metadata.full_name,
+    mobile_number: metadata.mobile_number,
+    email,
+    city: metadata.city,
+    gender: metadata.gender ?? null,
+    date_of_birth: metadata.date_of_birth ?? null
+  });
+
+  if(profileError) {
+    return { data: null, error: profileError };
+  }
+
+  return { data, error: null };
+  
 }
 export async function getUserProfile(userId: string): Promise<UserProfile | null> {
   const { data, error } = await supabase
@@ -82,6 +115,34 @@ export async function setUserRole(userId: string, role: AppRole) {
   return { data, error };
 }
 
+export async function getUserContext(userId: string) {
+  const { data: profile } = await supabase
+    .from('profiles')
+    .select('*')
+    .eq('user_id', userId)
+    .maybeSingle();
+
+  const { data: roleRow } = await supabase
+    .from('user_roles')
+    .select('role')
+    .eq('user_id', userId)
+    .maybeSingle();
+
+
+  const { data: memberships } = await supabase
+    .from('gym_members')
+    .select(`
+      *,
+      gym(*)
+    `)
+    .eq('user_id', userId);
+
+  return { 
+    profile,
+    role: roleRow?.role ?? null,
+    memberships: memberships ?? []
+  }
+}
 export async function signOut() {
   const { error } = await supabase.auth.signOut();
   return { error };
@@ -91,7 +152,18 @@ export async function signIn(email: string, password: string) {
     email,
     password,
   });
-  return { data, error };
+
+  if(error || !data.user) return { data: null, error };
+
+  const context = await getUserContext(data.user.id);
+
+  return { 
+    user: data.user,
+    profile: context.profile,
+    role: context.role,
+    memberships: context.memberships,
+    error: null
+  };
 }
 
 export function getRoleDashboardPath(role: AppRole | null): string {
@@ -105,4 +177,17 @@ export function getRoleDashboardPath(role: AppRole | null): string {
     default:
       return '/auth/select-role';
   }
+}
+
+export function getDashoardPath(
+  role: AppRole | null | undefined,
+  memberships: any[] | undefined
+): string {
+  if(role === 'owner') return '/owner/dashboard';
+  if(role === 'trainer') return '/trainer/dashboard';
+
+  if(memberships && memberships?.length > 0) {
+    return '/member/dashboard';
+  }
+  return '/auth/select-role';
 }

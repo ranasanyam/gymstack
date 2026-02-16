@@ -5,8 +5,9 @@ import type { Database } from './types';
 // Prefer NEXT_PUBLIC env vars for client-side access, fall back to server-side names if present.
 const SUPABASE_URL = process.env.NEXT_PUBLIC_SUPABASE_URL ?? process.env.NEXT_SUPABASE_URL ?? '';
 const SUPABASE_PUBLISHABLE_KEY = process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY ?? process.env.NEXT_SUPABASE_PUBLISHABLE_KEY ?? '';
+const SUPABASE_ANON_KEY = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY ?? process.env.NEXT_SUPABASE_ANON_KEY ?? '';
 console.log("supabase url", SUPABASE_URL);
-if (!SUPABASE_URL || !SUPABASE_PUBLISHABLE_KEY) {
+if (!SUPABASE_URL || !SUPABASE_PUBLISHABLE_KEY || !SUPABASE_ANON_KEY) {
   // Helpful warning during development when env vars are missing or not exposed to the browser
   // (e.g. missing NEXT_PUBLIC_ prefix).
   // In production you should ensure these env vars are set.
@@ -21,7 +22,7 @@ if (!SUPABASE_URL || !SUPABASE_PUBLISHABLE_KEY) {
 // Avoid accessing window / localStorage on the server
 const isBrowser = typeof window !== 'undefined';
 
-export const supabase = createClient<Database>(SUPABASE_URL, SUPABASE_PUBLISHABLE_KEY, {
+export const supabase = createClient<Database>(SUPABASE_URL, SUPABASE_ANON_KEY, {
   auth: {
     storage: isBrowser ? window.localStorage : undefined,
     persistSession: true,

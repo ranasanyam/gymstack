@@ -24,7 +24,7 @@ export function AuthLayout({ children, title, subtitle }: AuthLayoutProps) {
                 <Dumbbell className="w-8 h-8 text-white" />
               </div>
               <span className="text-3xl font-display font-bold text-white">
-                FitHub
+                GymStack
               </span>
             </div>
             <h1 className="text-5xl font-display font-bold text-white mb-6 leading-tight">

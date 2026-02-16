@@ -44,8 +44,7 @@ export default function SignUp() {
                 gender: formData.gender || undefined,
             });
 
-            console.log('data', data);
-            console.log("error", error);
+
 
             if(error) {
                 toast({
@@ -56,14 +55,15 @@ export default function SignUp() {
                 setLoading(false);
                 return;
             }
-            if(!error) {
-                toast({
-                    title: 'Account created!',
-                    description: 'Please check your email to verify your account.',
-                });
-                // redirect user to select role page
-                router.push('/auth/select-role');
-            }
+            
+            toast({
+                title: 'Account created!',
+                // description: 'Please check your email to verify your account.',
+                description: 'Welcome to GymStack 🎉'
+            });
+            // redirect user to select role page
+            router.push('/auth/select-role');
+            
         } catch (err) {
             toast({
                 variant: 'destructive',

@@ -1,5 +1,5 @@
 'use client';
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { DashboardLayout } from "@/app/components/layout/DashboardLayout";
 import { motion } from 'framer-motion';
@@ -14,7 +14,7 @@ import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigge
 import { useOwnerGyms } from '@/app/hooks/useGyms';
 import { differenceInDays } from 'date-fns';
 import { MoreVertical, Search, UserPlus, Users, Edit, Trash2, Building2, Clock, Plus } from 'lucide-react';
-import { useGymMembers, useDeleteMember } from '@/app/hooks/useMembers';
+import { useGymMembers, useDeactivateMember } from '@/app/hooks/useMembers';
 import { AddMemberModal } from '@/app/components/gym/AddMemberModal';
 
 export default function OwnerMembers() {
@@ -25,15 +25,24 @@ export default function OwnerMembers() {
     const [searchQuery, setSearchQuery] = useState('');
     const [isAddDialogOpen, setIsAddDialogOpen] = useState(false);
 
+    // Set selectedGym to first gym's ID when gyms load
+    useEffect(() => {
+        if (gyms && gyms.length > 0 && !selectedGym) {
+            setSelectedGym(gyms[0].id);
+        }
+    }, [gyms, selectedGym]);
+
     const gymId = selectedGym || gyms?.[0]?.id;
+   
     const { data: members, isLoading } = useGymMembers(gymId);
-    const deleteMember = useDeleteMember();
+    const deleteMember = useDeactivateMember();
 
 
-    const filteredMembers = members?.filter(member => 
+
+    const filteredMembers = searchQuery ? members?.filter(member => 
         member.profile?.full_name?.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        member.profile?.mobile_number?.includes(searchQuery)
-    )
+        member.profile?.mobile_number?.toString().includes(searchQuery)
+    ) : members;
 
 
     const getGymName = () => gyms?.find(g => g.id === gymId)?.name || '';
@@ -78,14 +87,14 @@ export default function OwnerMembers() {
                             const daysLeft = member.end_date ? differenceInDays(new Date(member.end_date), new Date()) : null;
                             return (
                                 <motion.div key={member.id} initial={{ opacity: 0, y: 20}} animate={{ opacity: 1, y: 0 }} transition={{ delay: i * 0.05 }}>
-                                    <Card className='cursor-pointer hover:border-primary/50' onClick={() => navigate(`/owner/members/${member.id}`)}>
+                                    <Card className='cursor-pointer hover:border-[#f97015]/50' onClick={() => navigate(`/owner/members/${member.id}`)}>
                                         <CardContent className='p-4'>
                                             <div className='flex items-start gap-4'>
                                                 <Avatar className="h-12 w-12">
                                                     {member?.avatar_url ? (
                                                         <AvatarImage src={member?.avatar_url} alt={member?.profile?.full_name} ></AvatarImage>
                                                     ) : null}
-                                                    <AvatarFallback className='bg-primary/10 text-primary'>
+                                                    <AvatarFallback className='bg-[#f97015]/10 text-primary'>
                                                         {member?.profile?.full_name?.charAt(0) || 'M'}
                                                     </AvatarFallback>
                                                 </Avatar>
@@ -116,10 +125,10 @@ export default function OwnerMembers() {
                                                     </div>
                                                     <div className='flex gap-2 mt-2'>
                                                         <Badge variant={member?.membership_type === 'paid' ? 'default' : 'secondary'}>
-                                                            {member?.membership_type}
+                                                            {member?.membership_type?.toUpperCase()}
                                                         </Badge>
                                                         {member?.membership_plan && (
-                                                            <Badge variant="outline" className='text-xl'>
+                                                            <Badge variant="outline" className='text-sm font-medium'>
                                                                 {member?.membership_plan?.name}
                                                             </Badge>
                                                         )}
@@ -155,7 +164,7 @@ export default function OwnerMembers() {
                             </Button>
                         </CardContent>
                     </Card>
-                )}
+                )} 
             </div>
             {gymId && (
                 <AddMemberModal 

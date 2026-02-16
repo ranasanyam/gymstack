@@ -30,7 +30,7 @@ function GymCard({ gym, onDelete }: { gym: Gym; onDelete: () => void }) {
 
     return (
         <Card
-        className="bg-card border-border overflow-hidden group cursor-pointer hover:border-primary/50 transition-colors"
+        className="bg-card border-border overflow-hidden group cursor-pointer  transition-colors"
         onClick={() => navigate(`/owner/gyms/${gym.id}`)}
         >
             <div className="h-32 bg-linear-to-br from-[#f9701850]  to-[#f970158] flex items-center justify-center">
@@ -54,7 +54,7 @@ function GymCard({ gym, onDelete }: { gym: Gym; onDelete: () => void }) {
                             className="opacity-0 group-hover:opacity-100 transition-opacity"
                             onClick={(e) => e.stopPropagation()}
                             >
-                                <MoreVertical className="w-4 h-4" />
+                                <MoreVertical className="w-4 h-4 text-white" />
                             </Button>
                         </DropdownMenuTrigger>
                         <DropdownMenuContent align="end">

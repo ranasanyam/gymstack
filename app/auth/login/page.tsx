@@ -8,20 +8,20 @@ import { Eye, EyeOff, ArrowRight, Loader2 } from 'lucide-react';
 import { motion } from 'framer-motion';
 import { Button } from '@/app/components/ui/button';
 import { useToast } from '@/app/hooks/use-toast';
-import { signIn } from '../../lib/auth';
+import { signIn, getDashoardPath } from '../../lib/auth';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
-import { useAuth } from '@/app/contexts/AuthContext';
-import { getRoleDashboardPath } from '@/app/lib/auth';
+// import { useAuth } from '@/app/contexts/AuthContext';
+// import { getRoleDashboardPath } from '@/app/lib/auth';
 export default function Login() {
     const { toast } = useToast();
     const router = useRouter();
-    const navigate = router.push;
+    // const navigate = router.push;
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [showPassword, setShowPassword] = useState(false);
     const [loading, setLoading] = useState(false);
-    const { refreshProfile, refreshRole } = useAuth();
+    // const { refreshProfile, refreshRole } = useAuth();
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
@@ -29,29 +29,34 @@ export default function Login() {
 
         setLoading(true);
         try {
-            const { data, error } = await signIn(email, password);
+            const response = await signIn(email, password);
 
-            if(error) {
+            console.log("response", response);
+            if(response?.error) {
                 toast({
                     variant: 'destructive',
                     title: 'Login failed',
-                    description: error.message,
+                    description: response?.error?.message,
                 });
                 setLoading(false);
                 return;
             }
-            if(data.user) {
-                await Promise.all([refreshProfile(), refreshRole()]);
+            const { role, memberships } = response;
 
-                const { supabase } = await import('@/app/integrations/supabase/client');
-                const { data: roleData } = await supabase
-                    .from('user_roles')
-                    .select('role')
-                    .eq('user_id', data.user.id)
-                    .maybeSingle();
-                const path = getRoleDashboardPath(roleData?.role as any);
-                navigate(path);
-            }
+            const redirectPath = getDashoardPath(role, memberships);
+            router.push(redirectPath);
+            // if(data.user) {
+            //     await Promise.all([refreshProfile(), refreshRole()]);
+
+            //     const { supabase } = await import('@/app/integrations/supabase/client');
+            //     const { data: roleData } = await supabase
+            //         .from('user_roles')
+            //         .select('role')
+            //         .eq('user_id', data.user.id)
+            //         .maybeSingle();
+            //     const path = getRoleDashboardPath(roleData?.role as any);
+            //     navigate(path);
+            // }
         } catch (err) {
             toast({
                 variant: 'destructive',
@@ -65,7 +70,7 @@ export default function Login() {
     return (
         <AuthLayout
         title="Welcome Back"
-        subtitle="Sign in to your account to continue"
+        subtitle="Sign in to continue"
         >
             <form onSubmit={handleSubmit} className="space-y-6">
                 <div className="space-y-2">

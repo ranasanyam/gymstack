@@ -116,7 +116,7 @@ export function AddMemberModal({ open, onOpenChange, gymId, gymName }: AddMember
       const result = await addMember.mutateAsync({
         gym_id: gymId,
         full_name: fullName,
-        mobile_number: mobileNumber,
+        mobile_number: +mobileNumber,
         email,
         gender,
         goals: selectedGoals,
@@ -127,15 +127,14 @@ export function AddMemberModal({ open, onOpenChange, gymId, gymName }: AddMember
         membership_plan_id: selectedPlanId || undefined,
         registration_id: registrationId,
         avatar_url: avatarUrl || undefined,
-        end_date: endDate || undefined,
-        payment_received: paymentReceived,
+        end_date: endDate || undefined
       });
 
       // If payment received, record the payment
-      if (paymentReceived && totalFee > 0 && result.data) {
+      if (paymentReceived && totalFee > 0 && result) {
         await createPayment.mutateAsync({
+          member_id: result.id,
           gym_id: gymId,
-          member_id: result.data.id,
           amount: totalFee,
           payment_method: 'cash',
           status: 'completed',

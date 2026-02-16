@@ -2,6 +2,7 @@
 import React, { useState } from "react";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { AuthProvider } from "@/app/contexts/AuthContext";
+import { Toaster } from "sonner";
 
 export default function Providers({ children }: { children: React.ReactNode }) {
   // Initialize QueryClient on the client to avoid passing class instances from server
@@ -9,7 +10,10 @@ export default function Providers({ children }: { children: React.ReactNode }) {
 
   return (
     <QueryClientProvider client={queryClient}>
-      <AuthProvider>{children}</AuthProvider>
+      <AuthProvider>
+        <Toaster position="bottom-right" richColors />
+        {children}
+      </AuthProvider>
     </QueryClientProvider>
   );
 }

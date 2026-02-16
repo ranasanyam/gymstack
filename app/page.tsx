@@ -107,7 +107,7 @@ export default function Home() {
         </main>
                   <footer className="border-t border-white/10 mt-20 py-8">
             <div className="max-w-7xl mx-auto px-6 text-center text-white/40 text-sm">
-              © 2024 FitHub. All rights reserved.
+              © 2024 GymStack. All rights reserved.
             </div>
           </footer>
     </div>

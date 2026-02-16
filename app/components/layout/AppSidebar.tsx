@@ -107,7 +107,7 @@ export function AppSidebar() {
           </div>
           {!collapsed && (
             <span className="text-xl font-display font-bold text-sidebar-foreground">
-              FitHub
+              GymStack
             </span>
           )}
         </div>

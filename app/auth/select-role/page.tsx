@@ -88,13 +88,13 @@ export default function SelectRole() {
             <Dumbbell className="w-8 h-8 text-white" />
           </div>
           <span className="text-3xl font-display font-bold text-white">
-            FitHub
+            GymStack
           </span>
         </div>
 
         <div className="text-center mb-10">
           <h1 className="text-3xl font-display font-bold text-white mb-3">
-            How will you use FitHub?
+            How will you use GymStack?
           </h1>
           <p className="text-white/60">
             Select your role to get started with the right experience
